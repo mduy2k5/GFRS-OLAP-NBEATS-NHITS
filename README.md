@@ -25,7 +25,7 @@ Dự án được phát triển cho mục đích học tập và tham khảo tro
 
 ### 1️⃣ Clone dự án
 ```bash
-git clone https://github.com/<username>/<repository>
+git clone https://github.com/mduy2k5/gfrs-olap-nbeats-nhits/blob/SSIS/
 cd GFRS_SSIS
 ```
 ### 2️⃣ Cấu hình đường dẫn dữ liệu
