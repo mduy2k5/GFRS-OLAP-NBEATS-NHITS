@@ -63,20 +63,20 @@ Mở SSMS → kiểm tra dữ liệu đã được nạp vào Data Warehouse
 ---
 ## 📊 Kết quả đạt được
 
-Pipeline ETL chạy thành công và nạp đầy đủ dữ liệu từ Kaggle.
+- Pipeline ETL chạy thành công và nạp đầy đủ dữ liệu từ Kaggle.
 
-Dữ liệu được cấu trúc lại phục vụ phân tích và báo cáo.
+- Dữ liệu được cấu trúc lại phục vụ phân tích và báo cáo.
 
-Dự án chuẩn bị sẵn nền cho:
+- Dự án chuẩn bị sẵn nền cho:
 
-Power BI Reports
+- Power BI Reports
 
-Dashboard phân tích bán lẻ
+- Dashboard phân tích bán lẻ
 
-Mô hình dự báo chuỗi thời gian (Time-Series Forecasting)
+- Mô hình dự báo chuỗi thời gian (Time-Series Forecasting)
 
 ---
-##📄 Giấy phép
+## 📄 Giấy phép
 
 Dự án được sử dụng cho mục đích đồ án môn học.
 Nội dung mang tính tham khảo — không sử dụng lại cho mục đích thương mại hoặc tái phân phối.
