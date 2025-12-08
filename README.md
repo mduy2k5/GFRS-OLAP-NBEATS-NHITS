@@ -29,8 +29,7 @@ git clone https://github.com/mduy2k5/gfrs-olap-nbeats-nhits/blob/SSIS/
 cd GFRS_SSIS
 ```
 ### 2️⃣ Cấu hình đường dẫn dữ liệu
-Mở các file: Package.dtsx và GFRS_SSIS.dtproj
-Và thay:
+Mở các file Package.dtsx, GFRS_SSIS.dtproj và thay:
 ```bash
 YOUR_DATA_LINK → đường dẫn tuyệt đối đến thư mục dataset của bạn
 ```
