@@ -52,13 +52,13 @@ DESKTOP-ABC123\SQLEXPRESS
 
 ## ▶️ Cách chạy dự án SSIS
 
-Mở dự án trong Visual Studio
+1. Mở dự án trong Visual Studio
 
-Kiểm tra lại tất cả Connection Managers
+2. Kiểm tra lại tất cả Connection Managers
 
-Chuột phải file Package.dtsx → Run Package
+3. Chuột phải file Package.dtsx → Run Package
 
-Mở SSMS → kiểm tra dữ liệu đã được nạp vào Data Warehouse
+4. Mở SSMS → kiểm tra dữ liệu đã được nạp vào Data Warehouse
 
 ---
 ## 📊 Kết quả đạt được
