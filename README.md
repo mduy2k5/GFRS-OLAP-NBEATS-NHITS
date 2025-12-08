@@ -39,7 +39,7 @@ C:\Data\GlobalFashionRetail\
 ```
 ### 3️⃣ Cấu hình SQL Server
 
-Trong Package.dtsx, cập nhật:
+Trong Package.dtsx và GFRS_SSIS.dtproj, cập nhật:
 ```bash
 YOUR_SERVER_NAME → tên instance SQL Server trong SSMS
 ```
