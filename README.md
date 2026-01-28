@@ -41,14 +41,12 @@ cd GFRS_SSAS
 Mở dự án SSAS trong **Visual Studio**, vào thư mục **Data Sources**, chỉnh sửa file `.ds` và thay các giá trị sau:
 
 ```
-YOUR_SERVER_NAME → tên SQL Server instance
-YOUR_DW_NAME     → tên Data Warehouse
+SERVER_NAME → tên SQL Server instance
 ```
 
 Ví dụ:
 ```
 Data Source=localhost\SQLEXPRESS;
-Initial Catalog=DW_SAMPLE;
 Integrated Security=SSPI;
 ```
 
