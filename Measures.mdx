@@ -1,0 +1,273 @@
+/* ======================================================
+   MEASURE: Previous Quarter Quantity
+   Mục đích:
+   - Lấy giá trị Line Total của quý liền trước
+   - Phục vụ phân tích tăng trưởng theo thời gian
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[Prev Quarter Qty]
+AS
+(
+    PARALLELPERIOD(
+        [Dim Date].[Hierarchy].[Quarter Of Purchase], -- Cấp thời gian: Quý
+        1,                                             -- Lùi 1 quý
+        [Dim Date].[Hierarchy].CurrentMember
+    ),
+    [Measures].[Line Total]
+),
+FORMAT_STRING = "Standard",
+VISIBLE = 1;
+
+/* ======================================================
+   MEASURE: Growth Rate
+   Mục đích:
+   - Tính tỷ lệ tăng trưởng so với quý trước
+   - Xử lý an toàn trường hợp mẫu số = 0
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[Growth Rate]
+AS
+    CASE
+        WHEN
+            IsEmpty([Measures].[Prev Quarter Qty])
+            OR [Measures].[Prev Quarter Qty] = 0
+        THEN NULL
+        ELSE
+            (
+                [Measures].[Line Total]
+                - [Measures].[Prev Quarter Qty]
+            )
+            / [Measures].[Prev Quarter Qty]
+    END,
+FORMAT_STRING = "Percent",
+VISIBLE = 1;
+
+/* ======================================================
+   MEASURE: 3 Month Rolling Average
+   Mục đích:
+   - Làm mượt xu hướng doanh thu
+   - Giảm nhiễu ngắn hạn theo tháng
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[3 Month Rolling Avg]
+AS
+    AVG(
+        LASTPERIODS(
+            3,
+            [Dim Date].[Hierarchy].CurrentMember
+        ),
+        [Measures].[Line Total]
+    ),
+FORMAT_STRING = "Standard",
+VISIBLE = 1;
+
+/* ======================================================
+   MEASURE: Repurchase Customer Count
+   Mục đích:
+   - Đếm số khách hàng mua lặp lại
+   - Transaction Type = SALE (&[2])
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[Repurchase Customer Count]
+AS
+    COUNT(
+        FILTER(
+            EXISTING [Dim CUSTOMER].[Customer ID].[Customer ID].MEMBERS,
+            (
+                [Measures].[Fact TRANSACTIONS Count],
+                [Dim TRANSACTIONTYPE].[Transaction Type ID].&[2]
+            ) > 1
+        )
+    ),
+VISIBLE = 1;
+
+/* ======================================================
+   MEASURE: Unique Customer Count
+   Mục đích:
+   - Đếm số khách hàng phát sinh mua hàng
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[Unique Customer Count]
+AS
+    COUNT(
+        NONEMPTY(
+            [Dim CUSTOMER].[Customer ID].[Customer ID].MEMBERS,
+            [Measures].[Line Total]
+        )
+    ),
+VISIBLE = 1;
+
+/* ======================================================
+   MEASURE: Product Repurchase Rate
+   Mục đích:
+   - Đánh giá mức độ trung thành với sản phẩm
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[Product Repurchase Rate]
+AS
+    IIF(
+        [Measures].[Unique Customer Count] = 0,
+        NULL,
+        [Measures].[Repurchase Customer Count]
+        / [Measures].[Unique Customer Count]
+    ),
+FORMAT_STRING = "Percent",
+VISIBLE = 1;
+
+/* ======================================================
+   MEASURE: Sales of Top 10 Products
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[Sales of Top 10 Products]
+AS
+    SUM(
+        TOPCOUNT(
+            EXISTING [Dim Products].[Product ID].[Product ID].MEMBERS,
+            10,
+            [Measures].[Line Total]
+        ),
+        [Measures].[Line Total]
+    ),
+FORMAT_STRING = "#,##0.00",
+VISIBLE = 1;
+
+/* ======================================================
+   MEASURE: Sales of Bottom 10 Products
+   - Loại bỏ các sản phẩm không có doanh thu
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[Sales of Bottom 10 Products]
+AS
+    SUM(
+        BOTTOMCOUNT(
+            FILTER(
+                EXISTING [Dim Products].[Product ID].[Product ID].MEMBERS,
+                [Measures].[Line Total] > 0
+            ),
+            10,
+            [Measures].[Line Total]
+        ),
+        [Measures].[Line Total]
+    ),
+FORMAT_STRING = "#,##0.00",
+VISIBLE = 1;
+
+/* ======================================================
+   MEASURE: Top 5 Product Contribution %
+   - Phân tích Pareto (Top 5 / Total)
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[Top 5 Product Contribution %]
+AS
+    IIF(
+        [Measures].[Line Total] = 0,
+        NULL,
+        SUM(
+            TOPCOUNT(
+                EXISTING [Dim Products].[Product ID].[Product ID].MEMBERS,
+                5,
+                [Measures].[Line Total]
+            ),
+            [Measures].[Line Total]
+        )
+        /
+        ([Dim Products].[Product ID].[All], [Measures].[Line Total])
+    ),
+FORMAT_STRING = "Percent",
+VISIBLE = 1;
+
+/* ======================================================
+   MEASURE: Hero vs Zero Ratio
+   - So sánh nhóm sản phẩm mạnh nhất vs yếu nhất
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[Hero vs Zero Ratio]
+AS
+    IIF(
+        [Measures].[Sales of Bottom 10 Products] = 0,
+        NULL,
+        [Measures].[Sales of Top 10 Products]
+        /
+        [Measures].[Sales of Bottom 10 Products]
+    ),
+FORMAT_STRING = "#,##0.0x",
+VISIBLE = 1;
+
+/* ======================================================
+   MEASURE: Discount Affinity %
+   - Đánh giá mức độ phụ thuộc vào khuyến mãi
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[Discount Affinity %]
+AS
+    IIF(
+        [Measures].[Line Total] = 0,
+        NULL,
+        SUM(
+            FILTER(
+                EXISTING [Dim Discounts].[Discount].[Discount].MEMBERS,
+                [Dim Discounts].[Discount].CurrentMember.MemberValue > 0
+            ),
+            [Measures].[Line Total]
+        )
+        / [Measures].[Line Total]
+    ),
+FORMAT_STRING = "Percent",
+VISIBLE = 1;
+
+/* ======================================================
+   MEASURE: Revenue YTD
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[Revenue YTD]
+AS
+    SUM(
+        PERIODSTODATE(
+            [Dim Date].[Hierarchy].[Year Of Purchase],
+            [Dim Date].[Hierarchy].CurrentMember
+        ),
+        [Measures].[Line Total]
+    ),
+FORMAT_STRING = "#,##0.00",
+VISIBLE = 1;
+
+/* ======================================================
+   MEASURE: SubCategory Rank
+   - Xếp hạng SubCategory theo Quantity
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[SubCat Rank]
+AS
+    RANK(
+        [Dim PRODUCTS - Sub Category].[Sub Category].CurrentMember,
+        ORDER(
+            [Dim PRODUCTS - Sub Category].[Sub Category].[Sub Category].MEMBERS,
+            ([Measures].[Quantity], [Dim TRANSACTIONTYPE].[Transaction Type ID].&[2]),
+            BDESC
+        )
+    ),
+VISIBLE = 0;
+
+/* ======================================================
+   MEASURE: SubCategory Cumulative Quantity
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[SubCat Cumulative Quantity]
+AS
+    SUM(
+        TOPCOUNT(
+            [Dim PRODUCTS - Sub Category].[Sub Category].[Sub Category].MEMBERS,
+            [Measures].[SubCat Rank],
+            ([Measures].[Quantity], [Dim TRANSACTIONTYPE].[Transaction Type ID].&[2])
+        ),
+        ([Measures].[Quantity], [Dim TRANSACTIONTYPE].[Transaction Type ID].&[2])
+    ),
+VISIBLE = 1;
+
+/* ======================================================
+   MEASURE: SubCategory Pareto %
+   - Phục vụ biểu đồ Pareto trong Power BI
+   ====================================================== */
+CREATE MEMBER CURRENTCUBE.[Measures].[SubCat Pareto %]
+AS
+    IIF(
+        (ROOT([Dim PRODUCTS - Sub Category]),
+         [Measures].[Quantity],
+         [Dim TRANSACTIONTYPE].[Transaction Type ID].&[2]) = 0,
+        NULL,
+        ([Measures].[SubCat Cumulative Quantity],
+         [Dim TRANSACTIONTYPE].[Transaction Type ID].&[2])
+        /
+        (ROOT([Dim PRODUCTS - Sub Category]),
+         [Measures].[Quantity],
+         [Dim TRANSACTIONTYPE].[Transaction Type ID].&[2])
+    ),
+FORMAT_STRING = "Percent",
+VISIBLE = 1;
+
