@@ -1,0 +1,101 @@
+﻿-- 1.	Tổng doanh thu theo năm (roll-up từ ngày → năm)
+SELECT 
+	 NON EMPTY { [Measures].[Line Total] } ON COLUMNS, 
+	 NON EMPTY { ([Dim DATE].[Hierarchy].ALLMEMBERS) } ON ROWS 
+ FROM [GFRS DW];
+
+-- 2.	Tổng doanh thu theo quốc gia
+SELECT 
+    NON EMPTY {[Measures].[Line Total], [Measures].[Quantity]} ON COLUMNS,
+    NON EMPTY [Dim STORES - Location].[Hierarchy].ALLMEMBERS ON ROWS
+FROM [GFRS DW]
+WHERE ( [Dim TRANSACTIONTYPE].[Transaction Type ID].&[2] );
+
+-- 3.	Doanh số và tốc độ tăng trưởng của từng quý
+SELECT 
+   NON EMPTY { [Measures].[Line Total], [Measures].[Growth Rate] } ON COLUMNS, 
+   NON EMPTY { ([Dim DATE].[Year Of Purchase].[Year Of Purchase].ALLMEMBERS * [Dim DATE].[Quarter Of Purchase].[Quarter Of Purchase].ALLMEMBERS ) } ON ROWS 
+FROM [GFRS DW]
+
+-- 4.   Doanh số theo tháng
+  SELECT 
+	  NON EMPTY { [Measures].[Line Total],[Measures].[3 Month Rolling Avg],[Measures].[Revenue YTD] } ON COLUMNS, 
+	  NON EMPTY { ([Dim DATE].[Year Of Purchase].[Year Of Purchase].ALLMEMBERS * [Dim DATE].[Month Of Purchase].[Month Of Purchase].ALLMEMBERS ) } ON ROWS 
+  FROM [GFRS DW]
+
+-- 5.   Sự yêu thích của khách hàng năm 2024
+SELECT
+  NON EMPTY {[Measures].[Line Total],[Measures].[Product Repurchase Rate],[Measures].[Repurchase Customer Count],[Measures].[Unique Customer Count]} ON COLUMNS,
+  NON EMPTY {[Dim PRODUCTS - Sub Category].[Sub Category].ALLMEMBERS} ON ROWS
+FROM [GFRS DW]
+WHERE ( [Dim DATE].[Year Of Purchase].&[2024] );
+
+
+-- 6.   Sự chênh lệch trong các danh mục sản phẩm
+SELECT 
+    NON EMPTY { [Measures].[Hero vs Zero Ratio], [Measures].[Sales of Top 10 Products], [Measures].[Sales of Bottom 10 Products] } ON COLUMNS, 
+    NON EMPTY { ([Dim PRODUCTS - Sub Category].[Sub Category].[Sub Category].ALLMEMBERS ) } ON ROWS 
+FROM [GFRS DW];
+
+-- 7.    Hiển thị doanh thu ở Allauch Pháp theo các ngày trong tuần
+ SELECT 
+ NON EMPTY { [Measures].[Line Total] } ON COLUMNS, 
+ NON EMPTY { ([Dim LOCATION].[Country].[Country].ALLMEMBERS * [Dim LOCATION].[City].[City].ALLMEMBERS * [Dim DATE].[Day Of Week].[Day Of Week].ALLMEMBERS ) } ON ROWS 
+ FROM ( SELECT ( { [Dim LOCATION].[City].&[Paris] } ) ON COLUMNS 
+     FROM ( SELECT ( { [Dim LOCATION].[Country].&[France] } ) ON COLUMNS 
+     FROM [GFRS DW])
+ )
+
+-- 8.   Pivot: Categories on columns, Years on rows (hoặc ngược lại)
+SELECT
+  NON EMPTY [Dim DATE].[Year Of Purchase].ALLMEMBERS ON COLUMNS,
+  NON EMPTY [Dim PRODUCTS - Sub Category].[Sub Category].ALLMEMBERS ON ROWS
+FROM [GFRS DW]
+WHERE ( [Measures].[Line Total]);
+
+
+-- 9.   Doanh số dựa trên loại sản phẩm và giới tính
+SELECT
+    [Dim CUSTOMER].[Gender].Members ON COLUMNS,
+    NON EMPTY [Dim PRODUCTS - Sub Category].[Sub Category].Members ON ROWS
+FROM [GFRS DW]
+WHERE ( 
+    [Measures].[Line Total], 
+    [Dim TRANSACTIONTYPE].[Transaction Type ID].&[2] 
+);
+
+-- 10.   Pivot với nhiều measures (Sales, Quantity)
+SELECT
+    [Dim PAYMENTMETHOD].[Payment Method].Members ON COLUMNS,
+    NON EMPTY [Dim STORES - Location].[City].Members ON ROWS
+FROM [GFRS DW]
+WHERE ( 
+    [Measures].[Line Total]
+);
+
+-- Yêu cầu bổ sung
+-- 1. Lấy top 1 danh mục sản phẩm phụ bán chạy nhất theo từng quý năm 2023
+SELECT 
+  ([Measures].[Quantity],[Dim TRANSACTIONTYPE].[Transaction].&[Sale]&[2]) ON COLUMNS,
+  GENERATE (
+      [Dim DATE].[Hierarchy].[2023].CHILDREN,
+      CROSSJOIN(
+      {[Dim DATE].[Hierarchy].CURRENTMEMBER},
+      TOPCOUNT(
+          [Dim PRODUCTS - Sub Category].[Sub Category].CHILDREN,
+          1, 
+          ([Measures].[Quantity],[Dim TRANSACTIONTYPE].[Transaction].&[Sale]&[2])
+      )
+      )
+  ) ON ROWS
+FROM [GFRS DW]
+
+-- 2. Lấy top 3 danh mục sản phẩm có doanh số nhất vào năm 2023 và 2024
+SELECT [Measures].[Line Total] ON COLUMNS,
+TOPCOUNT(
+        [Dim PRODUCTS - Sub Category].[Sub Category].CHILDREN,
+        3,
+    [Measures].[Line Total]
+) ON ROWS
+FROM [GFRS DW]
+WHERE {[Dim DATE].[Hierarchy].[Year Of Purchase].&[2023],[Dim DATE].[Hierarchy].[Year Of Purchase].&[2024]}
