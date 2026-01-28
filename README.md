@@ -41,7 +41,7 @@ Power BI – Business Analytics
 Time Series Forecasting (N-BEATS, N-HiTS)
 ```
 ---
-##🛠️ Công nghệ sử dụng
+## 🛠️ Công nghệ sử dụng
 - SQL Server / SSMS – Data Warehouse
 - SSIS (SQL Server Integration Services) – ETL
 - SSAS (SQL Server Analysis Services) – OLAP & MDX
