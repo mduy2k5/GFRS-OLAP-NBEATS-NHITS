@@ -63,7 +63,6 @@ Time Series Forecasting (N-BEATS, N-HiTS)
 - Áp dụng mô hình Deep Learning hiện đại cho dữ liệu bán lẻ
 - Dự án có thể mở rộng cho các bài toán thực tế
 
-Portfolio cá nhân
 ---
 ## 📄 Giấy phép
 
