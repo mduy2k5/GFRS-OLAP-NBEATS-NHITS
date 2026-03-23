@@ -4,6 +4,9 @@ Dự án này xây dựng **mô hình OLAP (Online Analytical Processing)** cho 
 Dự án được phát triển bằng **Visual Studio (SSDT)**, sử dụng dữ liệu đã được nạp vào **Data Warehouse**, nhằm phục vụ mục đích **học tập và tham khảo trong môn học**.
 Link Dataset: https://www.kaggle.com/datasets/ricgomes/global-fashion-retail-stores-dataset
 ---
+## ⚠️ Lưu ý
+- Kho lưu trữ này chỉ chứa các đóng góp cá nhân của tôi.
+- Bạn có thể tham khảo đầy đủ tại: https://github.com/TranDaiHai2107/Global-Fashion-Retail-Analytics
 
 ## 🎯 Mục tiêu tổng quan
 
