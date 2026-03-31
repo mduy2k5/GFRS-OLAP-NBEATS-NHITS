@@ -1,120 +1,112 @@
-# 🧊 Global Fashion Retail OLAP Analysis (SSAS & Power BI)
+# Global Fashion Retail OLAP Analysis (SSAS & Power BI)
 
-Dự án này xây dựng **mô hình OLAP (Online Analytical Processing)** cho ngành **bán lẻ thời trang**, sử dụng **SQL Server Analysis Services (SSAS – Multidimensional)** để thiết kế **Dimension, Cube và Measure**, phục vụ cho **truy vấn phân tích và báo cáo** trên **Power BI**.  
+This project builds an **OLAP (Online Analytical Processing) model** for the **fashion retail** industry, using **SQL Server Analysis Services (SSAS – Multidimensional)** to design **Dimensions, Cubes, and Measures** for **analytical queries and reporting** in **Power BI**. 
 
-Dự án được phát triển bằng **Visual Studio (SSDT)**, sử dụng dữ liệu đã được nạp vào **Data Warehouse**, nhằm phục vụ mục đích **học tập và tham khảo trong môn học**.
+The project was developed using **Visual Studio (SSDT)**, utilizing data loaded into a **Data Warehouse**, for **learning and academic reference purposes**.
 
-# 📊 MDX Queries & Power BI Analytics (SSAS)
+# MDX Queries & Power BI Analytics (SSAS)
 
-Branch này tập trung vào **tầng phân tích (Analytics Layer)** của dự án OLAP, bao gồm:
+This branch focuses on the **Analytics Layer** of the OLAP project, including:
 
-- Các **truy vấn MDX** trên SSAS Multidimensional Cube
-- **Dashboard Power BI** kết nối trực tiếp với SSAS
-- Minh họa cách khai thác dữ liệu OLAP phục vụ phân tích kinh doanh
+- **MDX queries** on the SSAS Multidimensional Cube
+- **Power BI Dashboards** connecting directly to SSAS
+- Demonstrations of how to leverage OLAP data for business analytics
 
----
-## 🎯 Mục tiêu
+## Objectives
 
-- Minh hoạ kỹ năng **SSAS Multidimensional & MDX**
-- Trình bày khả năng xây dựng **BI Dashboard**
-- Phục vụ mục đích **học tập, trình diễn và portfolio**
----
-## 📁 Nội dung chính
+- Illustrate **SSAS Multidimensional & MDX** skills
+- Demonstrate the ability to build **BI Dashboards**
+- Serve for **learning, presentation, and portfolio** purposes
 
-### 🔹 MDX Queries (`mdx/`)
-- Truy vấn OLAP cơ bản và nâng cao
-- Phân tích theo thời gian (YTD, MTD)
+
+## Main Contents
+
+### MDX Queries (`mdx/`)
+- Basic and advanced OLAP queries
+- Time intelligence analysis (YTD, MTD)
 - Top-N, Ranking
-- Calculated Member & KPI
+- Calculated Members & KPIs
 
----
 
-### 🔹 Power BI Dashboards (`powerbi/`)
-- Dashboard xây dựng trên **Live Connection / DirectQuery** tới SSAS
-- Không chứa dữ liệu thật
----
+### Power BI Dashboards (`powerbi/`)
+- Dashboards built on **Live Connection / DirectQuery** to SSAS
+- Contains no actual data
 
-## ⚠️ Lưu ý về dữ liệu & bảo mật
+## Data & Security Notice
 
-- Branch này **không chứa dữ liệu thực**
-- Không lưu:
-  - Connection string thật
-  - Password
-  - User nội bộ
-- Người dùng cần tự cấu hình kết nối SSAS theo môi trường
+- This branch **does not contain real data**
+- Does not store:
+  - Real connection strings
+  - Passwords
+  - Internal users
+- Users must manually configure the SSAS connection according to their environment
 
----
-# Điểm nổi bậc trong đồ án
+# Project Highlights
 
-## 🔍 1. Phân tích Pareto – Nguyên lý 80/20 trong bán lẻ
+## 1. Pareto Analysis – The 80/20 Rule in Retail
 
-### 🎯 Mục tiêu phân tích
-Xác định:
-- Nhóm **sản phẩm / danh mục cốt lõi** tạo ra phần lớn doanh thu
-- Mức độ tập trung doanh thu trong hệ thống bán lẻ
+### Analysis Objectives
+Identify:
+- **Core products / categories** that generate the majority of revenue
+- The concentration of revenue within the retail system
 
-### 🧠 Cách tiếp cận
-- Sử dụng **tổng doanh thu (Total Sales)** làm chỉ số chính
-- Sắp xếp sản phẩm theo doanh thu giảm dần
-- Tính **tỷ lệ doanh thu tích lũy (Cumulative Percentage)**
-- Xác định ngưỡng **80% doanh thu**
+### Approach
+- Use **Total Sales** as the primary metric
+- Sort products by descending revenue
+- Calculate the **Cumulative Percentage** of revenue
+- Identify the **80% revenue threshold**
 
-### 📈 Trực quan hoá
-- **Biểu đồ cột**: Doanh thu theo sản phẩm / danh mục
-- **Đường tích lũy (%)**: Thể hiện quy luật Pareto
-- Đánh dấu vùng:
-  - Nhóm sản phẩm chủ lực (≈ 20%)
-  - Nhóm sản phẩm còn lại (≈ 80%)
+### Visualization
+- **Column chart**: Revenue by product / category
+- **Cumulative line (%)**: Illustrates the Pareto principle
+- Highlighted areas:
+  - Core product group (approx. 20%)
+  - Remaining product group (approx. 80%)
 
-### 💡 Insight rút ra
-- Một **tỷ lệ nhỏ sản phẩm** đóng góp **phần lớn doanh thu**
-- Doanh nghiệp nên:
-  - Ưu tiên tồn kho cho nhóm sản phẩm chủ lực
-  - Tập trung marketing & trưng bày cho nhóm này
-  - Rà soát chiến lược với nhóm sản phẩm hiệu quả thấp
+### Key Insights
+- A **small percentage of products** contributes to the **majority of revenue**
+- The business should:
+  - Prioritize inventory for the core product group
+  - Focus marketing and display efforts on this group
+  - Review strategies for low-performing products
 
-👉 Phân tích Pareto giúp **ra quyết định dựa trên dữ liệu**, thay vì cảm tính.
+Note: Pareto analysis facilitates **data-driven decision-making**, replacing intuition.
 
----
+## 2. Analyzing the Impact of Promotions on Product Categories
 
-## 🎁 2. Phân tích ảnh hưởng của khuyến mãi đến danh mục sản phẩm
+### Analysis Objectives
+Evaluate:
+- Whether promotions **actually drive revenue**
+- The **varying degrees of impact** across different product categories
 
-### 🎯 Mục tiêu phân tích
-Đánh giá:
-- Khuyến mãi có **thực sự thúc đẩy doanh thu** hay không
-- Mức độ ảnh hưởng **khác nhau giữa các danh mục sản phẩm**
+### Approach
+- Compare metrics:
+  - Revenue
+  - Sales volume
+- Segment data by:
+  - Promotion / No Promotion
+  - Product Category
+- Analyze trends before, during, and after promotions
 
-### 🧠 Cách tiếp cận
-- So sánh các chỉ số:
-  - Doanh thu
-  - Số lượng bán
-- Chia dữ liệu theo:
-  - Có khuyến mãi / Không khuyến mãi
-  - Danh mục sản phẩm
-- Phân tích xu hướng trước – trong – sau khuyến mãi
+### Visualization
+- **Comparison charts (Clustered Column / Bar)**
+- **Time-series trend charts**
+- Slicers for:
+  - Category
+  - Time
+  - Promotion status
 
-### 📊 Trực quan hoá
-- **Biểu đồ so sánh (Clustered Column / Bar)**
-- **Biểu đồ xu hướng theo thời gian**
-- Slicer theo:
-  - Danh mục
-  - Thời gian
-  - Trạng thái khuyến mãi
+### Key Insights
+- Not all categories benefit from promotions
+- Some categories:
+  - Experience a significant increase in sales volume but a **decrease in profit margins**
+- Other categories:
+  - Are less sensitive to promotions, making them suitable for stable pricing strategies
 
-### 💡 Insight rút ra
-- Không phải danh mục nào cũng hưởng lợi từ khuyến mãi
-- Một số danh mục:
-  - Tăng mạnh số lượng bán nhưng **biên lợi nhuận giảm**
-- Một số danh mục khác:
-  - Ít nhạy cảm với khuyến mãi → phù hợp chiến lược giá ổn định
+Note: This analysis supports:
+- Optimizing **promotional strategies by category**
+- Avoiding blanket discounts that negatively impact profitability
 
-👉 Phân tích này hỗ trợ:
-- Tối ưu **chiến lược khuyến mãi theo danh mục**
-- Tránh giảm giá tràn lan gây ảnh hưởng lợi nhuận
-
----
-
-## 📄 Giấy phép
-
-Dự án được xây dựng cho **mục đích học tập và đồ án môn học**.  
-Nội dung mang tính tham khảo — **không sử dụng cho mục đích thương mại hoặc tái phân phối**.
+## License
+- This project was built for **learning and academic purposes**.  
+- The content is for reference only — **do not use for commercial purposes or redistribution**.
