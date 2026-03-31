@@ -70,6 +70,9 @@ Identify:
   - Focus marketing and display efforts on this group
   - Review strategies for low-performing products
 
+### Result
+![Pareto_PerSubCategory](https://github.com/mduy2k5/GFRS-OLAP-NBEATS-NHITS/blob/5785268b6df117828ef2b74a6c77eb04a06bb98d/Pareto_PerSubCategory.png)
+
 Note: Pareto analysis facilitates **data-driven decision-making**, replacing intuition.
 
 ## 2. Analyzing the Impact of Promotions on Product Categories
@@ -102,6 +105,9 @@ Evaluate:
   - Experience a significant increase in sales volume but a **decrease in profit margins**
 - Other categories:
   - Are less sensitive to promotions, making them suitable for stable pricing strategies
+
+### Result
+![Discount_PerSubCategory](https://github.com/mduy2k5/GFRS-OLAP-NBEATS-NHITS/blob/5785268b6df117828ef2b74a6c77eb04a06bb98d/Discount_PerSubCategory.png)
 
 Note: This analysis supports:
 - Optimizing **promotional strategies by category**
