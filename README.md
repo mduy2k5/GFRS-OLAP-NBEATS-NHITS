@@ -1,83 +1,59 @@
-# 🌐 Global Fashion Retail Data Warehouse & Time-Series Forecasting
+# Global Fashion Retail Data Warehouse & Time-Series Forecasting
 
-Dự án này xây dựng một **Data Warehouse cho ngành bán lẻ thời trang** và thực hiện **trích xuất – biến đổi – nạp dữ liệu (ETL)** bằng **SSIS trong Visual Studio**, sử dụng bộ dữ liệu từ **Kaggle**.  
-Dự án được phát triển cho mục đích học tập và tham khảo trong môn học.
+This project builds a **Data Warehouse for the fashion retail industry** and performs **Extract, Transform, Load (ETL)** processes using **SSIS in Visual Studio**, utilizing a dataset from **Kaggle**. 
+The project was developed for learning and academic reference purposes.
 
----
+## Project Objectives
 
-## 🎯 Mục tiêu dự án
+- Utilize the **fashion retail dataset from Kaggle** to build the ETL pipeline.
+- Clean, standardize, and load data into the SQL Server Data Warehouse.
+- Automate the data processing pipeline through **SSIS (SQL Server Integration Services)**.
+- Prepare data for future **business analytics** and **time-series forecasting** tasks.
 
-- Sử dụng **bộ dữ liệu bán lẻ thời trang từ Kaggle** để xây dựng quy trình ETL.
-- Làm sạch, chuẩn hoá và nạp dữ liệu vào SQL Server Data Warehouse.
-- Tự động hóa quy trình xử lý dữ liệu thông qua **SSIS (SQL Server Integration Services)**.
-- Chuẩn bị dữ liệu phục vụ cho các bài toán **phân tích kinh doanh** và **dự báo chuỗi thời gian** trong tương lai.
+## Technologies Used
 
----
+- **SQL Server Integration Services (SSIS)** – ETL process
+- **Visual Studio** – SSIS Package development
+- **SQL Server (SSMS)** – Data Warehouse storage and management
 
-## 🛠️ Công nghệ sử dụng
+## Installation & Configuration
 
-- **SQL Server Integration Services (SSIS)** – quy trình ETL  
-- **Visual Studio** – phát triển SSIS Package  
-- **SQL Server (SSMS)** – lưu trữ và quản lý Data Warehouse  
-
----
-## ⚙️ Cài đặt & Cấu hình
-
-### 1️⃣ Clone dự án
+### 1. Clone the project
 ```bash
 git clone https://github.com/mduy2k5/gfrs-olap-nbeats-nhits/blob/SSIS/
 cd GFRS_SSIS
 ```
-### 2️⃣ Cấu hình đường dẫn dữ liệu
-Mở các file Package.dtsx, GFRS_SSIS.dtproj và thay:
+### 2. Configure data path
+Open the Package.dtsx, GFRS_SSIS.dtproj files and replace:
 ```bash
-YOUR_DATA_LINK → đường dẫn tuyệt đối đến thư mục dataset của bạn
+YOUR_DATA_LINK → absolute path to your dataset folder
 ```
-Ví dụ:
+Example:
 ```bash
 C:\Data\GlobalFashionRetail\
 ```
-### 3️⃣ Cấu hình SQL Server
-
-Trong Package.dtsx và GFRS_SSIS.dtproj, cập nhật:
-```bash
-YOUR_SERVER_NAME → tên instance SQL Server trong SSMS
+### 3. Configure SQL Server
+In Package.dtsx and GFRS_SSIS.dtproj, update:
+```Bash
+YOUR_SERVER_NAME → SQL Server instance name in SSMS
 ```
-Ví dụ:
-```bash
+Example:
+```Bash
 DESKTOP-ABC123\SQLEXPRESS
 ```
-
-💡 Sau khi chỉnh xong, nên đóng và mở lại dự án để SSIS reload cấu hình kết nối.
-
-## ▶️ Cách chạy dự án SSIS
-
-1. Mở dự án trong Visual Studio
-
-2. Kiểm tra lại tất cả Connection Managers
-
-3. Chuột phải file Package.dtsx → Run Package
-
-4. Mở SSMS → kiểm tra dữ liệu đã được nạp vào Data Warehouse
-
----
-## 📊 Kết quả đạt được
-
-- Pipeline ETL chạy thành công và nạp đầy đủ dữ liệu từ Kaggle.
-
-- Dữ liệu được cấu trúc lại phục vụ phân tích và báo cáo.
-
-- Dự án chuẩn bị sẵn nền cho:
-
+Note: After configuring, you should close and reopen the project for SSIS to reload the connection settings.
+## How to run the SSIS project
+1. Open the project in Visual Studio
+2. Double-check all Connection Managers
+3. Right-click the Package.dtsx file → Run Package
+4. Open SSMS → verify that the data has been loaded into the Data Warehouse
+## Achieved Results
+- The ETL pipeline runs successfully and fully loads data from Kaggle.
+- Data is restructured for analysis and reporting purposes.
+- The project lays the groundwork for:
 - Power BI Reports
-
-- Dashboard phân tích bán lẻ
-
-- Mô hình dự báo chuỗi thời gian (Time-Series Forecasting)
-
----
-## 📄 Giấy phép
-
-Dự án được sử dụng cho mục đích đồ án môn học.
-Nội dung mang tính tham khảo — không sử dụng lại cho mục đích thương mại hoặc tái phân phối.
-
+- Retail analytics dashboard
+- Time-Series Forecasting models
+## License
+- This project is used for academic course assignments.
+- The content is for reference only — do not reuse for commercial purposes or redistribution.
