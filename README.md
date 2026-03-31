@@ -1,109 +1,81 @@
-# 🧊 Global Fashion Retail OLAP Analysis (SSAS & Power BI)
+# Global Fashion Retail OLAP Analysis (SSAS & Power BI)
 
-Dự án này xây dựng **mô hình OLAP (Online Analytical Processing)** cho ngành **bán lẻ thời trang**, sử dụng **SQL Server Analysis Services (SSAS – Multidimensional)** để thiết kế **Dimension, Cube và Measure**, phục vụ cho **truy vấn phân tích và báo cáo** trên **Power BI**.  
+This project builds an **OLAP (Online Analytical Processing) model** for the **fashion retail** industry, using **SQL Server Analysis Services (SSAS – Multidimensional)** to design **Dimensions, Cubes, and Measures** for **analytical queries and reporting** in **Power BI**. 
 
-Dự án được phát triển bằng **Visual Studio (SSDT)**, sử dụng dữ liệu đã được nạp vào **Data Warehouse**, nhằm phục vụ mục đích **học tập và tham khảo trong môn học**.
+The project was developed using **Visual Studio (SSDT)**, utilizing data loaded into a **Data Warehouse**, for **learning and academic reference purposes**.
 
----
+## Project Objectives
 
-## 🎯 Mục tiêu dự án
+- Build a **multidimensional OLAP model** from the fashion retail Data Warehouse.
+- Design **Dimensions** (Time, Product, Customer, Store, etc.).
+- Build **Cubes and Measure Groups** for business analytics.
+- Optimize data for queries:
+  - Revenue over time
+  - Product performance
+  - Region / Store analysis
+- Connect and extract OLAP data through **Power BI**.
 
-- Xây dựng **mô hình OLAP đa chiều** từ Data Warehouse bán lẻ thời trang.
-- Thiết kế các **Dimension** (Time, Product, Customer, Store, …).
-- Xây dựng **Cube và Measure Group** phục vụ phân tích kinh doanh.
-- Tối ưu dữ liệu cho các truy vấn:
-  - Doanh thu theo thời gian
-  - Hiệu suất sản phẩm
-  - Phân tích khu vực / cửa hàng
-- Kết nối và khai thác dữ liệu OLAP thông qua **Power BI**.
+## Technologies Used
 
----
+- **SQL Server Analysis Services (SSAS – Multidimensional)** – OLAP & Cube
+- **Visual Studio (SSDT)** – SSAS Project development
+- **SQL Server (SSMS)** – Data Warehouse
+- **Power BI Desktop** – Data visualization & analytics
 
-## 🛠️ Công nghệ sử dụng
+## Installation & Configuration
 
-- **SQL Server Analysis Services (SSAS – Multidimensional)** – OLAP & Cube  
-- **Visual Studio (SSDT)** – phát triển SSAS Project  
-- **SQL Server (SSMS)** – Data Warehouse  
-- **Power BI Desktop** – trực quan hoá & phân tích dữ liệu  
-
----
-
-## ⚙️ Cài đặt & Cấu hình
-
-### 1️⃣ Clone dự án
+### 1. Clone the project
 ```bash
-git clone https://github.com/mduy2k5/gfrs-olap-nbeats-nhits.git
+git clone [https://github.com/mduy2k5/gfrs-olap-nbeats-nhits.git](https://github.com/mduy2k5/gfrs-olap-nbeats-nhits.git)
 cd GFRS_SSAS
 ```
-
-### 2️⃣ Cấu hình Data Source (SSAS)
-
-Mở dự án SSAS trong **Visual Studio**, vào thư mục **Data Sources**, chỉnh sửa file `.ds` và thay các giá trị sau:
-
+### 2. Configure Data Source (SSAS)
+Open the SSAS project in Visual Studio, navigate to the Data Sources folder, edit the .ds file and replace the following values:
+```Plaintext
+SERVER_NAME → SQL Server instance name
 ```
-SERVER_NAME → tên SQL Server instance
-```
-
-Ví dụ:
-```
+Example:
+```Plaintext
 Data Source=localhost\SQLEXPRESS;
 Integrated Security=SSPI;
 ```
+Note:
+- The connection string in the repository has sensitive information hidden.
+- Users must manually configure the connection according to their own environment.
 
-⚠️ **Lưu ý**:  
-- Connection string trong repo đã được **ẩn thông tin nhạy cảm**  
-- Người dùng cần tự cấu hình theo môi trường của mình
+### 3. Prepare Data Warehouse
+- Ensure the Data Warehouse already exists in SQL Server.
+- The data schema must match the Data Source View (DSV).
+- Recommended model: Star Schema.
+## How to Run & Deploy SSAS
+1. Open the SSAS project in Visual Studio.
+2. Double-check the following:
+    - Data Source
+    - Data Source View
+    - Dimensions & Cubes
+3. Right-click the SSAS project → Deploy.
+4. Select the SSAS Server and wait for the deployment process to complete.
+5. Verify the Cube using:
+    - SQL Server Management Studio (SSMS)
+    - Or Power BI
 
----
-
-### 3️⃣ Chuẩn bị Data Warehouse
-
-- Đảm bảo Data Warehouse đã tồn tại trong SQL Server
-- Schema dữ liệu cần **phù hợp với Data Source View (DSV)**
-- Mô hình khuyến nghị: **Star Schema**
-
----
-
-## ▶️ Cách chạy & triển khai SSAS
-
-1. Mở dự án SSAS trong Visual Studio  
-2. Kiểm tra lại:
-   - Data Source
-   - Data Source View
-   - Dimension & Cube
-3. Chuột phải project SSAS → **Deploy**  
-4. Chọn SSAS Server và chờ quá trình deploy hoàn tất  
-5. Kiểm tra Cube bằng:
-   - SQL Server Management Studio (SSMS)
-   - Hoặc Power BI
-
----
-
-## 📊 Kết quả đạt được
-
-- Mô hình OLAP được xây dựng hoàn chỉnh với:
-  - Dimension rõ ràng
-  - Measure phục vụ phân tích
-- Cube hỗ trợ truy vấn nhanh và đa chiều
-- Dữ liệu sẵn sàng cho:
+## Achieved Results
+- A fully constructed OLAP model featuring:
+  - Clear Dimensions
+  - Measures designed for analytics
+- The Cube supports fast and multidimensional queries.
+- Data is ready for:
   - Power BI Reports
-  - Dashboard phân tích bán lẻ
-  - Các bài toán BI & phân tích nâng cao
+  - Retail analytics dashboards
+  - Advanced BI and analytics tasks
+## Security & Data Privacy
+- The project does not contain real data.
+- It does not include:
+  - Passwords
+  - Internal users
+  - Backup files (.abf, .bak)
+- Roles and Security configurations are for demo purposes only.
 
----
-
-## 🔐 Bảo mật & dữ liệu
-
-- Dự án **không chứa dữ liệu thật**
-- Không bao gồm:
-  - Password
-  - User nội bộ
-  - File backup (.abf, .bak)
-- Role và Security chỉ mang tính **demo**
-
----
-
-## 📄 Giấy phép
-
-Dự án được xây dựng cho **mục đích học tập và đồ án môn học**.  
-Nội dung mang tính tham khảo — **không sử dụng cho mục đích thương mại hoặc tái phân phối**.
+## License
+- This project was built for learning and academic purposes.
+- The content is for reference only — do not use for commercial purposes or redistribution.
